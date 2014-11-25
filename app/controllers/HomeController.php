@@ -15,9 +15,21 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showWelcome()
+	public function index()
 	{
-		return View::make('hello');
+        GLOBAL $CFG, $USER, $DB;
+        require_login();
+        $courses = enrol_get_users_courses($USER->id);
+		return View::make('hello', compact('USER','courses'));
 	}
+
+    public function showCourse($id){
+        GLOBAL $CFG, $USER, $DB;
+        require_login();
+        $course = $DB->get_record('course', array('id' => $id));
+        $coursecontext = context_course::instance($course->id);
+        $users = get_enrolled_users($coursecontext);
+        return View::make('course',compact('USER','course','users'));
+    }
 
 }

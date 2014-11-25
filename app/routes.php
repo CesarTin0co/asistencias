@@ -11,7 +11,5 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/',  array('uses' => 'HomeController@index'));
+Route::get('/course/{id}', array('uses' => 'HomeController@showCourse'));
